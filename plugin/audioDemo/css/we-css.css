@@ -1,0 +1,85 @@
+.we-audio {
+position: fixed;
+top: 50%;
+left: 50%;
+width: 300px;
+height: 40px;
+box-shadow: 1px 1px 2px 1px rgba(223, 223, 223, .8);
+border-radius: 1px;
+}
+
+.we-audio .we-song-info .we-song-cover {
+display: inline-block;
+width: 40px;
+}
+
+.we-audio .we-song-info .we-lyrics-play {
+display: inline-block;
+width: 150px;
+line-height: 40px;
+}
+
+.we-lyrics-play .we-play {
+text-align: center;
+color: #36d592;
+}
+
+.we-lyrics-play .we-play .we-i-item {
+padding: 10px;
+cursor: pointer;
+user-select: none;
+}
+
+.we-lyrics-play .we-play .we-i-item:hover {
+color: #2fb27a
+}
+
+.we-lyrics-play .we-play .we-play-circle {
+display: inline-block;
+padding: 3px 6px;
+width: 30px;
+height: 30px;
+line-height: initial;
+border: 1px solid #36d592;
+border-radius: 50%;
+cursor: pointer;
+user-select: none;
+box-sizing: border-box;
+}
+
+.we-lyrics-play .we-play .we-play-circle:hover {
+color: #2fb27a;
+border: 1px solid #2fb27a;
+}
+
+.we-song-info .we-operation {
+display: inline-block;
+width: 110px;
+line-height: 40px;
+}
+
+.we-song-info .we-operation .we-i-item {
+padding: 5px;
+cursor: pointer;
+color: #838383;
+}
+
+.we-song-info .we-operation .we-i-item:hover {
+color: #333;
+}
+.we-song-info .we-operation .we-full-like {
+color: #c72e2e;
+}
+
+.we-song-info .we-operation .we-full-like:hover {
+color: #c72e2e;
+}
+
+/*清除浮动*/
+.we-clearfix:after{content:'.';clear:both;display:block;height:0;visibility:hidden;font-size:0;line-height:0}
+
+/*左浮动*/
+.we-fl{float:left !important;}
+
+/*右浮动*/
+.we-fr{float:right !important;}

@@ -1,24 +1,23 @@
 <template>
   <div class="component-we-audio">
-    <div class="weAudio clearFix">
-      <div class="songInfo clearFix">
-        <img :src="activeMusic.songCover" class="songCover fl">
-        <div class="lyrics-play fl">
-          <div class="play">
-            <i @click="preSong" class="iconfont icon-pre-song iItem"></i>
-            <span @click="changeIsPlay" class="playCircle"><i class="iconfont playItem" :class="isPlay ? 'icon-play' : 'icon-stop'"></i></span>
-            <i @click="nextSong" class="iconfont icon-next-song iItem"></i>
+    <div class="we-audio we-clearfix">
+      <div class="we-song-info we-clearfix">
+        <img :src="activeMusic.songCover" class="we-song-cover we-fl">
+        <div class="we-lyrics-play we-fl">
+          <div class="we-play">
+            <i @click="preSong" class="iconfont icon-pre-song we-i-item"></i>
+            <span @click="changeIsPlay" class="we-play-circle"><i class="iconfont playItem" :class="isPlay ? 'icon-play' : 'icon-stop'"></i></span>
+            <i @click="nextSong" class="iconfont icon-next-song we-i-item"></i>
           </div>
         </div>
-        <div class="operation fl">
-          <i @click="exChangeLike" class="iconfont iItem" :class="activeMusic.like ? 'icon-full-like fullLike' : 'icon-empty-like'"></i>
-          <i class="iconfont icon-voice iItem"></i>
-          <i class="iconfont icon-list iItem"></i>
+        <div class="we-operation we-fl">
+          <i @click="exChangeLike" class="iconfont we-i-item" :class="activeMusic.like ? 'icon-full-like we-full-like' : 'icon-empty-like'"></i>
+          <i class="iconfont icon-voice we-i-item"></i>
+          <i class="iconfont icon-list we-i-item"></i>
         </div>
       </div>
     </div>
     <audio :src="activeMusic.songSrc" ref="weAudio">
-
     </audio>
   </div>
 </template>
@@ -105,78 +104,80 @@ export default {
 </script>
 
 <style scoped>
-.component-we-audio .weAudio {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 300px;
-  height: 40px;
-  box-shadow: 1px 1px 2px 1px rgba(223, 223, 223, .8);
-  border-radius: 1px;
+.we-audio {
+position: fixed;
+top: 50%;
+left: 50%;
+width: 300px;
+height: 40px;
+box-shadow: 1px 1px 2px 1px rgba(223, 223, 223, .8);
+border-radius: 1px;
 }
 
-.weAudio .songInfo .songCover {
-  display: inline-block;
-  width: 40px;
+.we-audio .we-song-info .we-song-cover {
+display: inline-block;
+width: 40px;
 }
 
-.weAudio .songInfo .lyrics-play {
-  display: inline-block;
-  width: 150px;
-  line-height: 40px;
+.we-audio .we-song-info .we-lyrics-play {
+display: inline-block;
+width: 150px;
+line-height: 40px;
 }
 
-.lyrics-play .play {
-  text-align: center;
-  color: #36d592;
+.we-lyrics-play .we-play {
+text-align: center;
+color: #36d592;
 }
 
-.lyrics-play .play .iItem {
-  padding: 10px;
-  cursor: pointer;
-  user-select: none;
+.we-lyrics-play .we-play .we-i-item {
+padding: 10px;
+cursor: pointer;
+user-select: none;
 }
 
-.lyrics-play .play .iItem:hover {
-  color: #2fb27a
+.we-lyrics-play .we-play .we-i-item:hover {
+color: #2fb27a
 }
 
-.lyrics-play .play .playCircle {
-  display: inline-block;
-  padding: 3px 6px;
-  width: 30px;
-  height: 30px;
-  line-height: initial;
-  border: 1px solid #36d592;
-  border-radius: 50%;
-  cursor: pointer;
-  user-select: none;
+.we-lyrics-play .we-play .we-play-circle {
+display: inline-block;
+padding: 3px 6px;
+width: 30px;
+height: 30px;
+line-height: initial;
+border: 1px solid #36d592;
+border-radius: 50%;
+cursor: pointer;
+user-select: none;
+box-sizing: border-box;
 }
 
-.lyrics-play .play .playCircle:hover {
-  color: #2fb27a;
-  border: 1px solid #2fb27a;
+.we-lyrics-play .we-play .we-play-circle:hover {
+color: #2fb27a;
+border: 1px solid #2fb27a;
 }
 
-.songInfo .operation {
-  display: inline-block;
-  width: 110px;
-  line-height: 40px;
+.we-song-info .we-operation {
+display: inline-block;
+width: 110px;
+line-height: 40px;
 }
 
-.songInfo .operation .iItem {
-  padding: 5px;
-  cursor: pointer;
-  color: #838383;
+.we-song-info .we-operation .we-i-item {
+padding: 5px;
+cursor: pointer;
+color: #838383;
 }
 
-.songInfo .operation .iItem:hover {
-  color: #333;
+.we-song-info .we-operation .we-i-item:hover {
+color: #333;
 }
-.songInfo .operation .fullLike {
-  color: #c72e2e;
+.we-song-info .we-operation .we-full-like {
+color: #c72e2e;
 }
-.songInfo .operation .fullLike:hover {
-  color: #c72e2e;
+
+.we-song-info .we-operation .we-full-like:hover {
+color: #c72e2e;
 }
 </style>
