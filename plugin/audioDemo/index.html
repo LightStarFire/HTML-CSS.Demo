@@ -14,8 +14,24 @@
     </div>
     <script src="./js/we-js.js"></script>
     <script>
-        var wePlugin = new WeAudio('.plugin');
-        wePlugin.init();
+        var wePlugin = new WeAudio('.plugin', {
+            musicList: [
+                {
+                    songName: '天若有情',
+                    like: false,
+                    color: '#fff',
+                    songCover: '../static/images/songer.jpg',
+                    songSrc: '../static/music/琵琶行——雷俊军.mp3'
+                },
+                {
+                    songName: '天若有情',
+                    like: false,
+                    color: '#fff',
+                    songCover: '../static/images/songer2.jpg',
+                    songSrc: '../static/music/归去来兮辞——雷俊军.mp3'
+                }
+            ]
+        });
     </script>
 </body>
 </html>
