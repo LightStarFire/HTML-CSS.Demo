@@ -22,7 +22,13 @@
 
     // weAudio status 音频的一些状态
     var status = {
-        isNotEmptyArray: true
+        haveMistake: false, // 有没有出错
+        mistakeInfo: '', // 出错信息
+        wePreSongDom: null, // 上一首
+        weNextSongDom: null, // 下一首
+        wePlayCircleDom: null, // 播放\暂停
+        weSongCoverDom: null, // 背景图片
+        weLikeDom: null, // 喜欢
     };
 
     // 定义一个正在播放的音乐类WeActiveMusic
@@ -41,17 +47,7 @@
         // }
     };
 
-    // 播放器初始化
-    function init () {
-        // 参数检查
-        checkParams();
-        // 根据模式选择一首歌曲
-        playMusicForMode();
-        // 插入节点
-        that.el.innerHTML = addWeAudioDom();
-        // 
-    };
-
+    // 工具
     var utils = {
         // 不是一个空的数组 true 反之 false
         isNotEmptyArray: function (_arr) {
@@ -62,54 +58,79 @@
                 return false;
             }
             return true;
+        },
+        // 检查模式
+        checkPlayMode: function () {
+            var playModeArr = ['single', 'order', 'random']
+            return playModeArr.indexOf(defaultOpts.playMode);
         }
+    };
+
+    // 播放器初始化
+    function init () {
+        // 参数检查
+        checkParams();
+        // 插入节点
+        that.el.innerHTML = addWeAudioDom();
+        // 选择一首歌曲
+        playMusic();
     };
 
     // 参数检查
     function checkParams () {
-        status.isNotEmptyArray = utils.isNotEmptyArray(defaultOpts.musicList);
-        if (!status.isNotEmptyArray) {
+        status.haveMistake = !utils.isNotEmptyArray(defaultOpts.musicList);
+        if (status.haveMistake) {
+            status.mistakeInfo = '噢~你这该死的家伙!歌曲资源都弄错了。';
+            return;
+        }
+        status.haveMistake = utils.checkPlayMode() === -1;
+        if (status.haveMistake) {
+            status.mistakeInfo = '啊~你这该死的家伙!没有这种播放模式。';
             return;
         }
         // defaultOpts.musicList.length
     };
 
-    // 根据模式选择一首歌曲
-    function playMusicForMode () {
-        switch (defaultOpts.playMode) {
-            case 'single':
-            // 单曲循环
-
-            break;
-            case 'order':
-            // 顺序播放
-            break;
-            case 'random':
-            // random
-            break;
-        }
+    // 选择一首歌曲
+    function playMusic () {
+        if (status.haveMistake) return;
+        WeActiveMusic = defaultOpts.musicList[0];
+        // console.log(WeActiveMusic);
+        bindDom();
     };
 
-    // 单曲循环
+    // 绑定节点事件
+    function bindDom () {
+        var wePreSongDom = document.getElementsByClassName('we-pre-son')[0]; // 上一首
+        var weNextSongDom = document.getElementsByClassName('we-next-song')[0]; // 下一首
+        var wePlayCircleDom = document.getElementsByClassName('we-play-circle')[0]; // 播放\暂停
+        var weSongCoverDom = document.getElementsByClassName('we-song-cover')[0]; // 背景图片
+        var weLikeDom = document.getElementsByClassName('we-like')[0]; // 喜欢
+    };
+
+    // 设置背景图片
+    function setWeSongCover () {
+
+    }
     
     
     // 插入节点 配置皮肤什么的
     function addWeAudioDom () {
         var audioDom;
-        if (!status.isNotEmptyArray) {
+        if (!status.haveMistake) {
             audioDom = '<div class="component-we-audio">' +
                             '<div class="we-audio we-clearfix">' +
                             '<div class="we-song-info we-clearfix">' +
-                                '<img src="./images/songer.jpg" class="we-song-cover we-fl">' +
+                                '<img class="we-song-cover we-fl">' +
                                 '<div class="we-lyrics-play we-fl">' +
                                 '<div class="we-play">' +
-                                    '<i @click="preSong" class="iconfont icon-pre-song we-i-item"></i>' +
+                                    '<i @click="preSong" class="iconfont icon-pre-song we-i-item we-pre-song"></i>' +
                                     '<span @click="changeIsPlay" class="we-play-circle"><i class="iconfont icon-stop playItem"></i></span>' +
-                                    '<i @click="nextSong" class="iconfont icon-next-song we-i-item"></i>' +
+                                    '<i @click="nextSong" class="iconfont icon-next-song we-i-item we-next-song"></i>' +
                                 '</div>' +
                                 '</div>' +
                                 '<div class="we-operation we-fl">' +
-                                '<i @click="exChangeLike" class="iconfont icon-empty-like we-i-item"></i>' +
+                                '<i @click="exChangeLike" class="iconfont icon-empty-like we-i-item we-like"></i>' +
                                 '<i class="iconfont icon-voice we-i-item"></i>' +
                                 '<i class="iconfont icon-list we-i-item"></i>' +
                                 '</div>' +
@@ -119,7 +140,7 @@
                             '</audio>' +
                         '</div>';
         } else {
-            audioDom = '<div class="component-we-audio"><div class="we-audio we-clearfix"><p>噢~你这该死的家伙!歌曲资源都弄错了。</p></div></div>'
+            audioDom = '<div class="component-we-audio"><div class="we-audio we-clearfix"><p class="we-errorData">' + status.mistakeInfo + '</p></div></div>'
         }
         return audioDom;
     };
