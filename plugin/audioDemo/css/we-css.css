@@ -81,6 +81,23 @@ font-size: 12px;
 color: #999;
 }
 
+.we-music-list {
+height: 280px;
+margin: 0 1px;
+font-size: 12px;
+color: #343434;
+box-shadow: 1px 1px 3px 1px rgba(223, 223, 223, .5);
+overflow: hidden;
+}
+
+.we-music-list .we-music-item {
+padding: 5px 20px;
+}
+
+.we-music-list .we-music-item:nth-of-type(2n) {
+background-color: #fafafb;
+}
+
 /*清除浮动*/
 .we-clearfix:after{content:'.';clear:both;display:block;height:0;visibility:hidden;font-size:0;line-height:0}
 
