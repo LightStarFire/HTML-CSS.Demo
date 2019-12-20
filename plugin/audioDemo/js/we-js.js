@@ -30,7 +30,9 @@
         weSongCoverDom: null, // 背景图片
         weLikeDom: null, // 喜欢
         weAudio: null, // 音频节点
-        musicList: null, // 音乐列表
+        weMusicList: null, // 音乐列表
+        weListBtn: null, // 音乐列表按钮
+        weMusicItems: '', // 音乐列表item的集合
         isPlayIndex: 0, // 播放的是第几首
     };
 
@@ -97,12 +99,11 @@
     // 选择一首歌曲
     function playMusic () {
         if (status.haveMistake) return;
-        WeActiveMusic = defaultOpts.musicList[status.isPlayIndex];
         // console.log(WeActiveMusic);
         // 绑定节点事件
         bindDom();
         // 设置音乐信息
-        setMusicInfo();
+        beforePlayAudio();
         // 设置音乐list
         setMusicList();
     };
@@ -115,10 +116,58 @@
         status.weSongCoverDom = document.getElementsByClassName('we-song-cover')[0]; // 背景图片
         status.weLikeDom = document.getElementsByClassName('we-like')[0]; // 喜欢
         status.weAudio = document.getElementById('weAudio'); // audio节点
-        status.musicList = document.getElementsByClassName('we-music-list')[0]; // 音乐列表
+        status.weMusicList = document.getElementsByClassName('we-music-list')[0]; // 音乐列表
+        status.weListBtn = document.getElementsByClassName('we-list-btn')[0]; // 音乐列表
         status.wePreSongDom.onclick = preSong;
         status.weNextSongDom.onclick = nextSong;
         status.wePlayCircleDom.onclick = playAudio;
+        status.weListBtn.onclick = exChangeMusicList;
+    };
+
+    // musicListItem 双击
+    function dblclickMusicItems () {
+        var index = parseInt(this.getAttribute('data-id'));
+        if (index === status.isPlayIndex && !status.weAudio.paused) return;
+        status.isPlayIndex = index;
+        beforePlayAudio();
+        playAudio();
+    }
+    
+    // musicListItem 单击
+    function clickMusicItems () {
+        if (this.classList.value.indexOf('active') !== -1) return;
+        for (var i = 0; i < status.weMusicItems.length; i++) {
+            status.weMusicItems[i].classList.remove('active');
+        }
+        status.weMusicItems[status.isPlayIndex].classList.add('active');
+        this.classList.add('active');
+    };
+
+    // musicListItem 显示播放暂停按钮
+    function showBtnForMusicItems () {
+        // 移除之前的
+        for (var i = 0; i < status.weMusicItems.length; i++) {
+            if (status.weMusicItems[i].childNodes.length > 1) {
+                status.weMusicItems[i].removeChild(status.weMusicItems[i].childNodes[0]);
+                status.weMusicItems[i].classList.remove('active');
+                break;
+            }
+        }
+        var iNode = document.createElement('i');
+        if (status.weAudio.paused) {
+            iNode.classList = 'we-iconfont we-icon-play we-i-item';
+        } else {
+            iNode.classList = 'we-iconfont we-icon-stop we-i-item';
+        }
+        // iNode.classList = 'we-iconfont we-icon-play we-i-item';
+        status.weMusicList.childNodes[status.isPlayIndex].insertBefore(iNode, status.weMusicList.childNodes[status.isPlayIndex].childNodes[0]);
+        status.weMusicList.childNodes[status.isPlayIndex].classList.add('active');
+    };
+
+    // 改变MusicList
+    function exChangeMusicList () {
+        let weMusicListHeight = status.weMusicList.style.height;
+        status.weMusicList.style.height = (weMusicListHeight === '0px' || weMusicListHeight === '') ? '290px' : '0px';
     };
 
     // 下一首
@@ -128,8 +177,7 @@
         } else {
             status.isPlayIndex += 1;
         }
-        WeActiveMusic = defaultOpts.musicList[status.isPlayIndex];
-        setMusicInfo();
+        beforePlayAudio();
         playAudio();
     };
 
@@ -140,9 +188,24 @@
         } else {
             status.isPlayIndex -= 1;
         }
+        beforePlayAudio();
+        playAudio();
+    };
+
+    // 播放之前处理
+    function beforePlayAudio () {
         WeActiveMusic = defaultOpts.musicList[status.isPlayIndex];
         setMusicInfo();
-        playAudio();
+    };
+
+    // 播放
+    function playAudio () {
+        if (status.weAudio.paused) {
+            status.weAudio.play();
+        } else {
+            status.weAudio.pause();
+        }
+        setPlayBtn(!status.weAudio.paused);
     };
 
     // 设置音乐信息且播放
@@ -170,27 +233,27 @@
             status.wePlayCircleDom.childNodes[0].classList.add("we-icon-stop");
             status.wePlayCircleDom.childNodes[0].classList.remove('we-icon-play');
         }
+        showBtnForMusicItems();
     };
 
     // 设置音乐列表
     function setMusicList () {
+        // 插入歌曲item
         var musicItem = '';
         for (var i = 0; i < defaultOpts.musicList.length; i++) {
-            musicItem += '<div class="we-music-item">' + defaultOpts.musicList[i].songName + '</div>'
+            musicItem += '<div class="we-music-item" data-id="' + i + '">' + defaultOpts.musicList[i].songName + '</div>'
         }
-        status.musicList.innerHTML = musicItem;
-    }
-
-    // 播放
-    function playAudio () {
-        if (status.weAudio.paused) {
-            status.weAudio.play();
-        } else {
-            status.weAudio.pause();
+        status.weMusicList.innerHTML = musicItem;
+        // 显示按钮
+        showBtnForMusicItems();
+        // 给每一个musicItem绑定事件
+        status.weMusicItems = document.getElementsByClassName('we-music-item'); // 音乐列表item 的集合
+        for (var i = 0; i < status.weMusicItems.length; i++) {
+            status.weMusicItems[i].onclick = clickMusicItems; // 单击项事件
+            status.weMusicItems[i].ondblclick = dblclickMusicItems; // 双击项事件
         }
-        setPlayBtn(!status.weAudio.paused);
     };
-    
+
     
     // 插入节点 配置皮肤什么的
     function addWeAudioDom () {
@@ -210,7 +273,7 @@
                                     '<div class="we-operation we-fl">' +
                                     '<i @click="exChangeLike" class="we-iconfont we-icon-empty-like we-i-item we-like"></i>' +
                                     '<i class="we-iconfont we-icon-voice we-i-item"></i>' +
-                                    '<i class="we-iconfont we-icon-list we-i-item"></i>' +
+                                    '<i class="we-iconfont we-icon-list we-i-item we-list-btn"></i>' +
                                     '</div>' +
                                 '</div>' +
                                 '<div class="we-music-list"></div>' +

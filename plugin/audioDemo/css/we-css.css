@@ -4,8 +4,14 @@ top: 50%;
 left: 50%;
 width: 300px;
 height: 40px;
-box-shadow: 1px 1px 2px 1px rgba(223, 223, 223, .8);
+}
+
+.we-audio .we-song-info {
+position: relative;
+z-index: 2;
 border-radius: 1px;
+background-color: #fff;
+box-shadow: 1px 1px 2px 1px rgba(223, 223, 223, .8);
 }
 
 .we-audio .we-song-info .we-song-cover {
@@ -82,20 +88,44 @@ color: #999;
 }
 
 .we-music-list {
-height: 280px;
+height: 0px;
 margin: 0 1px;
 font-size: 12px;
 color: #343434;
+background-color: rgba(255, 255, 255, .8);
 box-shadow: 1px 1px 3px 1px rgba(223, 223, 223, .5);
+transition: all .3s;
 overflow: hidden;
 }
 
 .we-music-list .we-music-item {
+position: relative;
 padding: 5px 20px;
+user-select: none;
 }
 
 .we-music-list .we-music-item:nth-of-type(2n) {
 background-color: #fafafb;
+}
+
+.we-music-list .we-music-item:hover {
+color: #010101;
+background-color: #f3f3f4;
+cursor: pointer;
+}
+
+.we-music-list .we-music-item.active {
+color: #010101;
+background-color: #f3f3f4;
+cursor: pointer;
+}
+
+.we-music-list .we-music-item .we-i-item {
+position: absolute;
+left: 1px;
+top: 7px;
+font-size: 13px;
+color: #2fb27a;
 }
 
 /*清除浮动*/
