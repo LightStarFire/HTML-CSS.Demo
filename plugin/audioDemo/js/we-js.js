@@ -20,7 +20,7 @@
         init();
     };
 
-    // weAudio status 音频的一些状态
+    // weAudio status 音频的一些状态 volume 
     var status = {
         haveMistake: false, // 有没有出错
         mistakeInfo: '', // 出错信息
@@ -272,11 +272,19 @@
                                     '</div>' +
                                     '<div class="we-operation we-fl">' +
                                     '<i @click="exChangeLike" class="we-iconfont we-icon-empty-like we-i-item we-like"></i>' +
-                                    '<i class="we-iconfont we-icon-voice we-i-item"></i>' +
-                                    '<i class="we-iconfont we-icon-list we-i-item we-list-btn"></i>' +
+                                    '<i class="we-iconfont we-icon-full-voice we-i-item" title="音量"></i>' +
+                                    '<i class="we-iconfont we-icon-list we-i-item we-list-btn" title="显示列表"></i>' +
                                     '</div>' +
                                 '</div>' +
                                 '<div class="we-music-list"></div>' +
+                                '<div class="we-sound-box">' +
+                                    '<div class="we-sound">' +
+                                        '<div class="we-sound-bar">' +
+                                            '<span class="we-sound-dot"></span>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="we-triangle"></div>' +
+                                '</div>' +
                             '</div>' +
                             '<audio id="weAudio">' +
                             '</audio>' +

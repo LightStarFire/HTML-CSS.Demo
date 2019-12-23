@@ -71,7 +71,7 @@ color: #838383;
 }
 
 .we-song-info .we-operation .we-i-item:hover {
-color: #333;
+color: #666;
 }
 .we-song-info .we-operation .we-full-like {
 color: #c72e2e;
@@ -126,6 +126,57 @@ left: 1px;
 top: 7px;
 font-size: 13px;
 color: #2fb27a;
+}
+
+.we-sound-box {
+position: absolute;
+top: -100%;
+right: 0;
+width: 120px;
+}
+
+.we-sound-box .we-sound {
+padding: 10px 8px;
+border: 1px solid #6e6e6e;
+box-shadow: 0px 1px 2px 1px rgba(153, 153, 153, .8);
+border-radius: 3px;
+}
+
+.we-sound-box .we-sound-bar {
+position: relative;
+height: 8px;
+background-color: #929292;
+border-radius: 5px;
+}
+
+.we-sound-box .we-triangle {
+position: absolute;
+bottom: -1px;
+left: 50%;
+width: 8px;
+height: 8px;
+transform: rotate(-45deg) translateX(-50%);
+border-left: 1px solid #6e6e6e;
+border-bottom: 1px solid #6e6e6e;
+background-color: #fff;
+}
+
+.we-sound-box .we-sound .we-sound-dot {
+position: absolute;
+top: -2px;
+left: 0;
+width: 2px;
+height: 2px;
+background-color: #929292;
+border-radius: 50%;
+border: 5px solid #fff;
+box-shadow: 0 0 8px 0 rgba(0, 0, 0, .8);
+transition: all .3s;
+}
+
+.we-sound-box .we-sound .we-sound-dot:hover {
+box-shadow: 0 0 6px 0 rgb(0, 0, 0);
+cursor: pointer;
 }
 
 /*清除浮动*/
