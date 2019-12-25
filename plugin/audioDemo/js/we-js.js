@@ -9,6 +9,7 @@
     var defaultOpts = {
         musicList: [], // 音乐列表
         playMode: 'order', // single(单曲循环) order(顺序播放) random(随机播放)
+        volume: 0.5
     };
 
     // 定义一个音频WeAudio类，通常首字母大写
@@ -32,6 +33,10 @@
         weAudio: null, // 音频节点
         weMusicList: null, // 音乐列表
         weListBtn: null, // 音乐列表按钮
+        weSoundDot: null, // 音量点
+        weSoundBar: null, // 音量柱
+        weIconFullVoice: null, // 音量图标
+        weSoundBox: null, // 音量modal
         weMusicItems: '', // 音乐列表item的集合
         isPlayIndex: 0, // 播放的是第几首
     };
@@ -118,10 +123,65 @@
         status.weAudio = document.getElementById('weAudio'); // audio节点
         status.weMusicList = document.getElementsByClassName('we-music-list')[0]; // 音乐列表
         status.weListBtn = document.getElementsByClassName('we-list-btn')[0]; // 音乐列表
+        status.weSoundDot = document.getElementsByClassName('we-sound-dot')[0]; // 音量点
+        status.weSoundBar = document.getElementsByClassName('we-sound-bar')[0]; // 音量柱
+        status.weIconFullVoice = document.getElementsByClassName('we-icon-full-voice')[0]; // 音量图标
+        status.weSoundBox = document.getElementsByClassName('we-sound-box')[0]; // 音量modal
+        
         status.wePreSongDom.onclick = preSong;
         status.weNextSongDom.onclick = nextSong;
         status.wePlayCircleDom.onclick = playAudio;
         status.weListBtn.onclick = exChangeMusicList;
+        status.weSoundDot.style.left = (defaultOpts.volume * 100 - 6) + 'px';
+        status.weSoundDot.onclick = clickDot;
+        status.weSoundDot.onmousedown = dragDot;
+        status.weSoundBar.onclick = clickBar;
+        status.weIconFullVoice.onclick = exchangeVolumeModal;
+    };
+
+    // 切换音量调整modal
+    function exchangeVolumeModal () {
+        var styleDisplay = status.weSoundBox.style.display;
+        status.weSoundBox.style.display = (styleDisplay === 'none' || styleDisplay === '') ? 'block' : 'none';
+    };
+
+    // 点击音量条
+    function clickBar (e) {
+        var ev = e || window.e; //兼容性
+        var eOffsetX = ev.offsetX;
+        status.weSoundDot.style.left = (eOffsetX - 6) + 'px';
+        setVolume(eOffsetX / 100);
+    };
+
+    // 点击音量 阻止冒泡
+    function clickDot (e) {
+        var ev = e || window.e; //兼容性
+        ev.stopPropagation();
+    };
+
+    // 拖动音量
+    function dragDot (e) {
+        var that = this;
+        this.classList.add('active');
+        var ev = e || window.e; //兼容性
+        var mouseX = ev.clientX; //鼠标按下的位置
+        var moveL = 0; //鼠标移动的距离
+        window.onmousemove = function (wev) {
+            var _wev = wev || window.event;
+            moveL = _wev.clientX - mouseX //鼠标移动的距离
+            var fromLeft  = (defaultOpts.volume * 100) + moveL; // 距离左边的距离
+            var actualL = fromLeft > 100 ? 100 : fromLeft < 0 ? 0 : fromLeft;
+            status.weSoundDot.style.left = (actualL - 6) + 'px';
+            console.log(fromLeft);
+            window.onmouseup = function () {
+                that.classList.remove('active');
+                setVolume(actualL / 100);
+                window.onmousemove = false; //解绑移动事件
+                return false;
+            }
+        };
+        console.log(defaultOpts.volume);
+        return false;
     };
 
     // musicListItem 双击
@@ -195,6 +255,7 @@
     // 播放之前处理
     function beforePlayAudio () {
         WeActiveMusic = defaultOpts.musicList[status.isPlayIndex];
+        setVolume(defaultOpts.volume);
         setMusicInfo();
     };
 
@@ -218,6 +279,13 @@
     function setWeSongCover () {
         status.weSongCoverDom.src = WeActiveMusic.songCover;
     };
+
+    // 设置音量
+    function setVolume (volume) {
+        defaultOpts.volume = volume;
+        status.weAudio.volume = volume;
+    };
+
 
     // 设置音频链接src
     function setAudioSrc () {
